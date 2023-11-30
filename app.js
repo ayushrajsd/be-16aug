@@ -10,6 +10,13 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
+app.use('/search', function(req,res){
+  console.log(req.query)
+  res.status(200).json({
+    message:"Search successful",
+    data:req.query
+  })
+})
 
 
 // const fs = require("fs");
@@ -21,7 +28,7 @@ app.use("/api/products", productRouter);
 mongoose.connect(process.env.DB_URL).then((connection) => {
   console.log("DB connected");
 }).catch((err) => {
-  console.log("DB connection failed");
+  console.log("DB connection failed", err.message);
 })
 /** DB connection ends */
 

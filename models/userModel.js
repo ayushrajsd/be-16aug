@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
     },
     id: String,
   });
+
+  userSchema.pre("save", function(){
+    this.confirmPassword = undefined;
+  })
   
   const User = mongoose.model("User", userSchema);
 
