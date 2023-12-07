@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema({
     },
     confirmPassword:{
       type: String,
-      required: true,
       validate: {
         validator: function(){
           return this.password === this.confirmPassword
@@ -28,6 +27,8 @@ const userSchema = new mongoose.Schema({
       }
     },
     id: String,
+    token:String,
+    otpExpiry:Date
   });
 
   userSchema.pre("save", function(){
