@@ -53,7 +53,6 @@ const getElementByIdFactory = (elementModel) =>
 
 const checkInput = function (req, res, next) {
   const input = req.body;
-  console.log("input", input)
   const isEmpty = Object.keys(input).length === 0;
   if (isEmpty) {
     return res.status(400).json({

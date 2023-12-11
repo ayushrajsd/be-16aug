@@ -1,15 +1,19 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 // const short = require("short-uuid");
 const mongoose = require("mongoose");
 const userRouter = require("./router/userRouter");
 const productRouter = require("./router/productRouter");
+const authRouter = require("./router/authRouter");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
+app.use("/api/auth",authRouter);
 app.use('/search', function(req,res){
   console.log(req.query)
   res.status(200).json({

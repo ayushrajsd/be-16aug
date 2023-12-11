@@ -1,15 +1,16 @@
 const express = require("express");
 const userRouter = express.Router();
-const {getUser, createUser, getUserById, deleteUserById, forgetPassword, resetPassword} = require("../controllers/userController");
+const {getUser, createUser, getUserById, deleteUserById} = require("../controllers/userController");
 const {checkInput} = require('../utils/crudFactory');
+const {isAdmin, protectRoute} = require("../controllers/authController");
 /** Routes for user */
 // app.use(checkInput);
 
-userRouter.get("/", getUser);
+// userRouter.get("/", getUser);
+userRouter.use(protectRoute);
 userRouter.post("/", checkInput, createUser);
-// forget and reset password routes
-userRouter.patch("/forgetPassword", forgetPassword);
-userRouter.patch("/resetPassword/:userId", resetPassword);
+
+userRouter.get('/allUsers', isAdmin, getUser)
 userRouter.get("/:id", getUserById);
 userRouter.delete('/:id',deleteUserById);
 
