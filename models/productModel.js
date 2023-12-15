@@ -54,6 +54,10 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:[true,'Please provide brand']
     },
+    reviews:{
+        type:[mongoose.Schema.Types.ObjectId],
+        ref:"Review"
+    },
     }
 )
 
