@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   });
 
   const validRoles = ["admin", "user", "seller"];
-  userSchema.pre("save", function(){
+  userSchema.pre("save", function(next){
     this.confirmPassword = undefined;
     // checking for roles
     if(this.role){

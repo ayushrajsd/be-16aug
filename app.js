@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 // const short = require("short-uuid");
 const mongoose = require("mongoose");
@@ -13,6 +14,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// app.use(cors())
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/auth",authRouter);

@@ -54,11 +54,15 @@ const loginHandler = async function (req, res) {
             });
             res
               .status(200)
-              .json({ status: "success", message: data, user: user });
+              .json({ status: "success", message: data, user:{
+                name: user.name,
+                email: user.email,
+                role: user.role
+              } });
           }
         );
       } else {
-        console.log("err", err);
+        // console.log("err", err);
         res.status(404).json({
           status: "failure",
           message: "email or password is incorrect",

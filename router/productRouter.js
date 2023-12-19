@@ -8,7 +8,8 @@ const {
   getProductById,
   deleteProductById,
   getProductsHandler,
-  getBigBillionProducts
+  getBigBillionProducts,
+  getProductCategories
 } = require("../controllers/productController");
 const { checkInput } = require("../utils/crudFactory");
 const { isAuthorized, protectRoute } = require("../controllers/authController");
@@ -20,6 +21,7 @@ const authorizedProductRoles = ["admin", "ceo", "sales"];
 productRouter.get("/", getProductsHandler);
 productRouter.post("/", checkInput, protectRoute, isAuthorized(authorizedProductRoles),createProduct);
 productRouter.get('/bigBillionDay',getBigBillionProducts, getProductsHandler)
+productRouter.get('/categories',getProductCategories)
 productRouter.get("/:id", getProductById);
 productRouter.delete("/:id", protectRoute, isAuthorized(authorizedProductRoles),deleteProductById);
 
