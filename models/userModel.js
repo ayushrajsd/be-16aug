@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -19,12 +20,12 @@ const userSchema = new mongoose.Schema({
     },
     confirmPassword:{
       type: String,
-      validate: {
-        validator: function(){
-          return this.password === this.confirmPassword
-        },
-        message: "Password and confirm password should be same"
-      }
+      // validate: {
+      //   validator: function(){
+      //     return this.password === this.confirmPassword
+      //   },
+      //   message: "Password and confirm password should be same"
+      // }
     },
     id: String,
     token:String,
@@ -40,8 +41,18 @@ const userSchema = new mongoose.Schema({
   });
 
   const validRoles = ["admin", "user", "seller"];
-  userSchema.pre("save", function(next){
+  userSchema.pre("save", async function(next){
+    // check if password and confirmPassword are same
+    console.log("cf", this.confirmPassword)
+    console.log("password", this.password)
+    if(this.password !== this.confirmPassword){
+      next(new Error("Password and confirm password should be same"))
+    }
     this.confirmPassword = undefined;
+    // use bcrypt to hash password
+    const hashedPassword = await bcrypt.hash(this.password, 12);
+    this.password = hashedPassword;
+    console.log("updated",this.password, hashedPassword)
     // checking for roles
     if(this.role){
       const isValid = validRoles.includes(this.role);
